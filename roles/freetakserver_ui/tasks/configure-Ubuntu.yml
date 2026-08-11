@@ -1,11 +1,8 @@
 ---
-- name: Template config file
-  template:
-    src: config.py.j2
-    dest: "{{ fts_ui_install_path }}/config.py"
-    owner: root
-    group: root
-    mode: 0644
+# The packaged config.py reads every setting from the environment, falling
+# back to FTSConfig.yaml, so templating a copy over it is unnecessary and
+# actively harmful: the template hardcoded SECRET_KEY, APIKEY and
+# WEBSOCKETKEY, which made those impossible to configure per deployment.
 
 - name: Template unit file
   template:
