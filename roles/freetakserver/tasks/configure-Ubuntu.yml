@@ -1,4 +1,12 @@
 ---
+- name: Ensure the persistence directory exists
+  file:
+    path: "{{ fts_config_path | dirname }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
 - name: Template FTSConfig.yaml config file
   template:
     src: FTSConfig.yaml.j2
