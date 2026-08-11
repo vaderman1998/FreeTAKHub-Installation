@@ -9,14 +9,14 @@
   apt:
     name: "{{ fts_apt_dependencies | list }}"
 
-#- name: "Install {{ fts_pip_package_name }} from github repo"
-#  shell: "{{ item }}"
-#  loop:
-#    - "git clone https://github.com/FreeTAKTeam/FreeTakServer.git /FreeTakServer"
-#    - "git -C /FreeTakServer reset --hard 109b674"
-#    - "pip install /FreeTakServer"
+- name: "Install {{ fts_pip_package_name }} from git ({{ fts_git_requirement }})"
+  pip:
+    name: "{{ fts_git_requirement }}"
+    virtualenv: "{{ fts_venv }}"
+  when: fts_git_requirement | default('') | length > 0
 
-- name: "Install {{ fts_pip_package_name }}"
+- name: "Install {{ fts_pip_package_name }} from PyPI"
   pip:
     name: "{{ fts_pip_package_name }}=={{ fts_version }}"
     virtualenv: "{{ fts_venv }}"
+  when: fts_git_requirement | default('') | length == 0

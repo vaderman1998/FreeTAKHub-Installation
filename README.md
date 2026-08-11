@@ -1,5 +1,34 @@
 ![CI](https://github.com/FreeTAKTeam/FreeTAKHub-Installation/actions/workflows/zerotouch.yml/badge.svg)
 
+# About this fork (`fts-fixed-branch`)
+
+This fork installs FreeTAKServer from the maintained fix branch
+[vaderman1998/FreeTakServer@fix/broken-out-of-box-startup](https://github.com/vaderman1998/FreeTakServer/tree/fix/broken-out-of-box-startup)
+instead of PyPI. Upstream FreeTAKServer 2.2.1 on PyPI does not start out of
+the box (missing `requests` dependency, broken `opentelemetry-sdk` pin) and
+pins a 2022-era crypto stack (cryptography 36 / pyOpenSSL 22, bundling EOL
+OpenSSL 1.1.1). The fix branch repairs startup, ports certificate generation
+to modern `cryptography`, regenerates the protobuf gencode, and makes the
+server co-installable with FreeTAKServer-UI.
+
+Behavior is controlled by `fts_git_requirement` in
+`roles/freetakserver/defaults/main.yml`; set it to `""` to restore the
+original PyPI install.
+
+Run the installer from this fork with:
+
+```bash
+wget -qO /tmp/easy_install.sh https://raw.githubusercontent.com/vaderman1998/FreeTAKHub-Installation/fts-fixed-branch/scripts/easy_install.sh
+sudo REPO=https://github.com/vaderman1998/FreeTAKHub-Installation.git BRANCH=fts-fixed-branch bash /tmp/easy_install.sh
+```
+
+Post-install, rotate the default credentials before exposing the server:
+the seeded admin user (`admin`/`password`, API token `token`), the
+websocket key (`YourWebsocketKey`), and the UI Flask `SECRET_KEY` are all
+well-known defaults.
+
+---
+
 This page is for developers of the Zero Touch Installer for [FreeTAKServer](https://github.com/FreeTAKTeam/FreeTakServer).
 Please refer to the [official documentation ](https://freetakteam.github.io/FreeTAKServer-User-Docs/) for usage.
 

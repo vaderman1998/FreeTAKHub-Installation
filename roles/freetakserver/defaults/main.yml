@@ -4,6 +4,13 @@ fts_ipv4: 0.0.0.0
 
 fts_pip_package_name: FreeTAKServer
 
+# When non-empty, FreeTAKServer is installed from this pip git requirement
+# instead of PyPI (fts_version is ignored). The default installs the
+# maintained fork branch with the out-of-box startup, dependency and
+# crypto-stack fixes that upstream 2.2.1 on PyPI is missing.
+# Set to "" to restore the original PyPI install behavior.
+fts_git_requirement: "FreeTAKServer @ git+https://github.com/vaderman1998/FreeTakServer.git@fix/broken-out-of-box-startup"
+
 fts_service_name: fts
 
 # Set initial service state. Recommended values: `started` or `stopped`.

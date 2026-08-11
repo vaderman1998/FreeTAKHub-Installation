@@ -12,6 +12,7 @@ fts_apt_dependencies:
   - netbase
   - gcc
   - python3-dev
+  - git
   - python3-distutils
   - libxml2-dev
   - libxslt1-dev
