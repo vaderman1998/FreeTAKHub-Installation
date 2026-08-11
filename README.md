@@ -34,6 +34,13 @@ host's primary LAN IPv4. Installing on a cloud host (or anywhere clients
 connect via a different address)? Pass it explicitly:
 `sudo FTS_IP_CUSTOM=<address> CORE=true REPO=... BRANCH=... bash /tmp/easy_install.sh`
 
+The web UI is installed from
+[vaderman1998/UI@feature/role-based-access](https://github.com/vaderman1998/UI/tree/feature/role-based-access),
+which enforces the server's user roles: system users whose group is
+`user`, `users`, `readonly`, `read-only` or `operator` get read-only
+access, and everyone else remains an administrator. Control this with
+`fts_ui_git_requirement` (set to `""` for the PyPI build).
+
 Post-install, rotate the default credentials before exposing the server:
 the seeded admin user (`admin`/`password`, API token `token`), the
 websocket key (`YourWebsocketKey`), and the UI Flask `SECRET_KEY` are all

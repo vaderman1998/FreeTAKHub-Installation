@@ -5,6 +5,12 @@ fts_ui_ipv4: 0.0.0.0
 # FreeTAKServer-UI pip package name
 fts_ui_pip_package_name: FreeTAKServer-UI
 
+# When non-empty, the UI is installed from this pip git requirement instead
+# of PyPI. The default installs the fork that enforces FreeTAKServer user
+# roles in the web UI (upstream grants every system user full admin access,
+# including the page that displays the shared API key). Set to "" for PyPI.
+fts_ui_git_requirement: "FreeTAKServer-UI @ git+https://github.com/vaderman1998/UI.git@feature/role-based-access"
+
 # system service name
 fts_ui_service_name: fts-ui
 
