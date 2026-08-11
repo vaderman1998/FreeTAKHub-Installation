@@ -1,3 +1,11 @@
 ---
-- name: cleanup /tmp/*
-  shell: sudo rm -rf /tmp/*
+# Deleting /tmp wholesale breaks ansible-core >= 2.21 (as shipped for
+# Ubuntu 24.04), which extracts its module payloads under /tmp: the original
+# `rm -rf /tmp/*` deleted the running module out from under itself, failing
+# with "Module result deserialization failed". Clean everything except
+# Ansible/multiprocessing runtime files instead.
+- name: cleanup /tmp (preserving Ansible runtime files)
+  shell: >
+    find /tmp -mindepth 1 -maxdepth 1
+    ! -name 'ansible*' ! -name 'pymp-*' ! -name 'systemd-*'
+    -exec rm -rf {} +
