@@ -29,6 +29,11 @@ wget -qO /tmp/easy_install.sh https://raw.githubusercontent.com/vaderman1998/Fre
 sudo CORE=true REPO=https://github.com/vaderman1998/FreeTAKHub-Installation.git BRANCH=fts-fixed-branch bash /tmp/easy_install.sh
 ```
 
+The server address baked into client packages and the web UI defaults to the
+host's primary LAN IPv4. Installing on a cloud host (or anywhere clients
+connect via a different address)? Pass it explicitly:
+`sudo FTS_IP_CUSTOM=<address> CORE=true REPO=... BRANCH=... bash /tmp/easy_install.sh`
+
 Post-install, rotate the default credentials before exposing the server:
 the seeded admin user (`admin`/`password`, API token `token`), the
 websocket key (`YourWebsocketKey`), and the UI Flask `SECRET_KEY` are all

@@ -5,18 +5,18 @@
 - name: Include FTSConfig variables
   include_vars: "FTSConfig.yml"
 
-- name: Get public IPv4
-  uri:
-    url: http://ifconfig.me/ip
-    return_content: true
-  register: ip_response
-
-- name: Set public IPv4
+# Default to this host's primary LAN IPv4. The old ifconfig.me lookup broke
+# dual-stack hosts (the request went out over IPv6, putting an IPv6 literal
+# into fts_public_ipv4 and producing unparseable http://v6:port/ URLs), and a
+# WAN address is unreachable for LAN TAK clients behind NAT anyway. Cloud
+# installs that need a public address should pass FTS_IP_CUSTOM to
+# easy_install.sh (-> fts_ip_addr_extra).
+- name: Set FTS address (this host's primary IPv4)
   set_fact:
-    fts_public_ipv4: "{{ ip_response.content }}"
+    fts_public_ipv4: "{{ ansible_default_ipv4.address }}"
   when: fts_ip_addr_extra is undefined
 
-- name: Set public IPv4
+- name: Set FTS address (user override)
   set_fact:
     fts_public_ipv4: "{{ fts_ip_addr_extra }}"
   when: fts_ip_addr_extra is defined
