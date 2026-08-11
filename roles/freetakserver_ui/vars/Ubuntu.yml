@@ -4,8 +4,10 @@ fts_ui_sqlachemy_db_uri: /opt/FTSServer-UI.db
 fts_ui_python_packages: "{{ fts_venv }}/lib/python{{ python3_version }}"
 fts_ui_install_path: "{{ fts_ui_python_packages }}/site-packages/FreeTAKServer-UI"
 
-fts_ui_apt_packages:
-  - python3-distutils
+# python3-distutils does not exist on noble (24.04): distutils was removed
+# from Python 3.12, and the venv python (3.11 via deadsnakes) ships its own.
+fts_ui_apt_packages: "{{ [] if ansible_distribution_release == 'noble'
+  else ['python3-distutils'] }}"
 
 fts_ui_pip_packages:
   - pyyaml

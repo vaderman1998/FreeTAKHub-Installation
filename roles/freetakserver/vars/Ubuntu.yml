@@ -5,14 +5,8 @@ fts_db_path: /opt/FreeTAKServer.db
 fts_python_packages: "{{ fts_venv }}/lib/python{{ python3_version }}"
 fts_install_path: "{{ fts_python_packages }}/site-packages/FreeTAKServer"
 
-fts_apt_dependencies:
-  - sudo
-  - tzdata
-  - wget
-  - netbase
-  - gcc
-  - python3-dev
-  - git
-  - python3-distutils
-  - libxml2-dev
-  - libxslt1-dev
+# python3-distutils does not exist on noble (24.04): distutils was removed
+# from Python 3.12, and the venv python (3.11 via deadsnakes) ships its own.
+fts_apt_dependencies: "{{ ['sudo', 'tzdata', 'wget', 'netbase', 'gcc',
+  'python3-dev', 'git', 'libxml2-dev', 'libxslt1-dev']
+  + ([] if ansible_distribution_release == 'noble' else ['python3-distutils']) }}"

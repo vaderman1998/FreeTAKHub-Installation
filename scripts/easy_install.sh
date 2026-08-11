@@ -389,6 +389,13 @@ function check_os() {
 
   fi
 
+  # Ubuntu 24.04 (noble) is supported by this fork: Python 3.11 is pulled
+  # from the deadsnakes PPA since noble's archive only carries 3.12.
+  if [[ "${OS}" == "Ubuntu" ]] && [[ "${VER}" == "24.04" ]] && [[ "${INSTALL_TYPE}" == "latest" ]]; then
+    echo -e "${GREEN}Ubuntu 24.04 detected: Python ${PY3_VER} will be installed from the deadsnakes PPA${NOFORMAT}"
+    return 0
+  fi
+
   # check for supported OS and version and warn if not supported
   if [[ "${OS}" != "${OS_REQD}" ]] || [[ "${VER}" != "${OS_VER_REQD}" ]]; then
 
@@ -515,7 +522,16 @@ function download_dependencies() {
 ###############################################################################
 function install_python_environment() {
   apt-get update
-  apt-get install -y python3-pip python3-setuptools
+  apt-get install -y python3-pip python3-setuptools gcc
+
+  # noble (24.04) has no python3.11 in the archive; use the deadsnakes PPA
+  if ! apt-cache show python${PY3_VER}-venv >/dev/null 2>&1; then
+    echo -e "${BLUE}python${PY3_VER} not in the archive, adding deadsnakes PPA...${NOFORMAT}"
+    apt-get install -y software-properties-common
+    add-apt-repository -y ppa:deadsnakes/ppa
+    apt-get update
+  fi
+
   apt-get install -y python${PY3_VER}-dev python${PY3_VER}-venv libpython${PY3_VER}-dev
 
   /usr/bin/python${PY3_VER} -m venv ${FTS_VENV}

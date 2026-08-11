@@ -3,8 +3,7 @@ pip3_packages:
   - pyyaml
   - pyapt
 
-python3_apt_packages:
-  - python3-pip
-  - python3-apt
-  - python3-distutils
-  # - "python{{ python3_version }}"
+# python3-distutils does not exist on noble (24.04) — distutils was removed
+# from Python 3.12, and the venv python (3.11 via deadsnakes) ships its own.
+python3_apt_packages: "{{ ['python3-pip', 'python3-apt']
+  + ([] if ansible_distribution_release == 'noble' else ['python3-distutils']) }}"

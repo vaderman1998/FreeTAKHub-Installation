@@ -15,11 +15,18 @@ Behavior is controlled by `fts_git_requirement` in
 `roles/freetakserver/defaults/main.yml`; set it to `""` to restore the
 original PyPI install.
 
-Run the installer from this fork with:
+This fork also supports **Ubuntu 24.04 (noble)** in addition to 22.04:
+Python 3.11 is installed from the deadsnakes PPA (noble's archive only
+carries 3.12, which the FTS stack has not been validated on), and the
+`python3-distutils` package (removed in noble) is skipped there.
+
+Run the installer from this fork with (`CORE=true` installs server + web UI;
+omit it to also install Murmur, the video server and Node-RED, which are
+untested on 24.04):
 
 ```bash
 wget -qO /tmp/easy_install.sh https://raw.githubusercontent.com/vaderman1998/FreeTAKHub-Installation/fts-fixed-branch/scripts/easy_install.sh
-sudo REPO=https://github.com/vaderman1998/FreeTAKHub-Installation.git BRANCH=fts-fixed-branch bash /tmp/easy_install.sh
+sudo CORE=true REPO=https://github.com/vaderman1998/FreeTAKHub-Installation.git BRANCH=fts-fixed-branch bash /tmp/easy_install.sh
 ```
 
 Post-install, rotate the default credentials before exposing the server:
