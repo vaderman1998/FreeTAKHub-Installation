@@ -9,6 +9,15 @@ Restart=always
 RestartSec=1
 StandardOutput=append:/var/log/{{ fts_ui_service_name }}/{{ fts_ui_service_name }}-stdout.log
 StandardError=append:/var/log/{{ fts_ui_service_name }}/{{ fts_ui_service_name }}-stderr.log
+# the packaged config.py takes every setting from the environment; binding
+# to 0.0.0.0 in particular is required for the UI to be reachable off-host
+Environment=FTS_UI_EXPOSED_IP=0.0.0.0
+Environment=FTS_UI_PORT={{ fts_ui_port | default(5000) }}
+Environment=FTS_IP={{ fts_ipv4 }}
+Environment=FTS_API_PORT={{ fts_api_port | default(19023) }}
+Environment="FTS_API_KEY=Bearer {{ fts_api_key | default('token') }}"
+Environment=FTS_UI_WSKEY={{ fts_websocket_key }}
+Environment=FTS_UI_SECRET_KEY={{ fts_ui_secret_key | default('key') }}
 ExecStart={{ fts_venv }}/bin/python3 {{ fts_ui_install_path }}/run.py
 
 [Install]

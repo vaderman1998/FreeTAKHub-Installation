@@ -37,7 +37,3 @@ Certs:
   FTS_FEDERATION_KEYPASS: {{ fts_federation_keypass }}
   FTS_CLIENT_CERT_PASSWORD: {{ fts_client_cert_password }}
   FTS_WEBSOCKET_KEY: {{ fts_websocket_key }}
-UI:
-  FTS_UI_WSKEY: {{ fts_websocket_key }}
-  FTS_API_KEY: Bearer {{ fts_api_key | default('token') }}
-  FTS_UI_SECRET_KEY: {{ fts_ui_secret_key | default('key') }}
