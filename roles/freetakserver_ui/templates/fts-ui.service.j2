@@ -13,7 +13,7 @@ StandardError=append:/var/log/{{ fts_ui_service_name }}/{{ fts_ui_service_name }
 # to 0.0.0.0 in particular is required for the UI to be reachable off-host
 Environment=FTS_UI_EXPOSED_IP=0.0.0.0
 Environment=FTS_UI_PORT={{ fts_ui_port | default(5000) }}
-Environment=FTS_IP={{ fts_ipv4 }}
+Environment=FTS_IP={{ fts_public_ipv4 }}
 Environment=FTS_API_PORT={{ fts_api_port | default(19023) }}
 Environment="FTS_API_KEY=Bearer {{ fts_api_key | default('token') }}"
 Environment=FTS_UI_WSKEY={{ fts_websocket_key }}
